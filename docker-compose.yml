@@ -9,42 +9,50 @@ services:
 
     db:
         image: postgres:12.0-alpine
+        restart: on-failure
         volumes:
             - postgres_data:/var/lib/postgresql/data/
         environment:
             - POSTGRES_USER=robot
             - POSTGRES_PASSWORD=django
             - POSTGRES_DB=robotixdb3
+        expose:
+            - 5432
 
     app:
         image: robotixweb/backend:latest
-        restart: always
+        restart: on-failure
         ports: 
             - "8000:8000"
-        command: bash -c "python3 manage.py migrate --no-input"
-        command: gunicorn RobotixWeb.wsgi --bind 0.0.0.0:8000 --workers 2 --threads 4 
+        command: >
+            sh -c "python manage.py migrate && 
+            gunicorn RobotixWeb.wsgi --bind 0.0.0.0:8000 --workers 2 --threads 4"
         environment: 
             - DEBUG=1
+            - SECRET_KEY=b8oypie)*b$pt6w#*$kvjjzejj5^d^2nek(bn0&lf8sac1zg-d
         depends_on:
             - db
 
-    # celery_beat:
-    #     image: robotixweb/backend:latest
-    #     volumes:
-    #         - ../RobotixWeb21:/RobotixWeb21
-    #     command: celery -A RobotixWeb beat -l info 
-    #     environment:
-    #         - DB_HOST=db
-    #         - DB_NAME=robotixdb3
-    #         - DB_USER=robot
-    #         - DB_PASS=robotixdb3
-    #     depends_on:
-    #         - db
-    #         - redis
-    #         - app
+    celery_beat:
+        image: robotixweb/backend:latest
+        restart: on-failure
+        volumes:
+            - ../RobotixWeb21:/RobotixWeb21
+        command: celery -A RobotixWeb beat -l info 
+        environment:
+            - DB_HOST=db
+            - DB_NAME=robotixdb3
+            - DB_USER=robot
+            - DB_PASS=robotixdb3
+            - SECRET_KEY=b8oypie)*b$pt6w#*$kvjjzejj5^d^2nek(bn0&lf8sac1zg-d
+        depends_on:
+            - db
+            - redis
+            - app
 
     celery_worker:
         image: robotixweb/backend:latest
+        restart: on-failure
         command: celery -A RobotixWeb worker -l info
         volumes:
             - ../RobotixWeb21:/RobotixWeb21
@@ -53,6 +61,7 @@ services:
             - DB_NAME=robotixdb3
             - DB_USER=robot
             - DB_PASS=robotixdb3
+            - SECRET_KEY=b8oypie)*b$pt6w#*$kvjjzejj5^d^2nek(bn0&lf8sac1zg-d
         depends_on:
             - db
             - redis
