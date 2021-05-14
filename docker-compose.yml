@@ -20,7 +20,7 @@ services:
             - 5432
 
     app:
-        image: robotixweb/backend:latest
+        image: robotixweb/backend:github
         restart: on-failure
         ports: 
             - "8000:8000"
@@ -34,7 +34,7 @@ services:
             - db
 
     celery_beat:
-        image: robotixweb/backend:latest
+        image: robotixweb/backend:github
         restart: on-failure
         volumes:
             - ../RobotixWeb21:/RobotixWeb21
@@ -51,7 +51,7 @@ services:
             - app
 
     celery_worker:
-        image: robotixweb/backend:latest
+        image: robotixweb/backend:github
         restart: on-failure
         command: celery -A RobotixWeb worker -l info
         volumes:
@@ -68,7 +68,7 @@ services:
             - app
 
     nginx:
-        image: robotixweb/frontend:latest
+        image: robotixweb/frontend:github
         restart: always
         ports:
             - 80:80
