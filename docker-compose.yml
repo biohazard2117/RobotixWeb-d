@@ -1,11 +1,11 @@
 version: '3.7'
 
 services:
-    redis:
-        image: redis:alpine
-        restart: on-failure
-        expose:
-            - 6379
+    # redis:
+    #     image: redis:alpine
+    #     restart: on-failure
+    #     expose:
+    #         - 6379
 
     db:
         image: postgres:12.0-alpine
@@ -33,39 +33,39 @@ services:
         depends_on:
             - db
 
-    celery_beat:
-        image: robotixweb/backend:github
-        restart: on-failure
-        volumes:
-            - ../RobotixWeb21:/RobotixWeb21
-        command: celery -A RobotixWeb beat -l info 
-        environment:
-            - DB_HOST=db
-            - DB_NAME=robotixdb3
-            - DB_USER=robot
-            - DB_PASS=robotixdb3
-            - SECRET_KEY=b8oypie)*b$pt6w#*$kvjjzejj5^d^2nek(bn0&lf8sac1zg-d
-        depends_on:
-            - db
-            - redis
-            - app
+    # celery_beat:
+    #     image: robotixweb/backend:github
+    #     restart: on-failure
+    #     volumes:
+    #         - ../RobotixWeb21:/RobotixWeb21
+    #     command: celery -A RobotixWeb beat -l info 
+    #     environment:
+    #         - DB_HOST=db
+    #         - DB_NAME=robotixdb3
+    #         - DB_USER=robot
+    #         - DB_PASS=robotixdb3
+    #         - SECRET_KEY=b8oypie)*b$pt6w#*$kvjjzejj5^d^2nek(bn0&lf8sac1zg-d
+    #     depends_on:
+    #         - db
+    #         - redis
+    #         - app
 
-    celery_worker:
-        image: robotixweb/backend:github
-        restart: on-failure
-        command: celery -A RobotixWeb worker -l info
-        volumes:
-            - ../RobotixWeb21:/RobotixWeb21
-        environment:
-            - DB_HOST=db
-            - DB_NAME=robotixdb3
-            - DB_USER=robot
-            - DB_PASS=robotixdb3
-            - SECRET_KEY=b8oypie)*b$pt6w#*$kvjjzejj5^d^2nek(bn0&lf8sac1zg-d
-        depends_on:
-            - db
-            - redis
-            - app
+    # celery_worker:
+    #     image: robotixweb/backend:github
+    #     restart: on-failure
+    #     command: celery -A RobotixWeb worker -l info
+    #     volumes:
+    #         - ../RobotixWeb21:/RobotixWeb21
+    #     environment:
+    #         - DB_HOST=db
+    #         - DB_NAME=robotixdb3
+    #         - DB_USER=robot
+    #         - DB_PASS=robotixdb3
+    #         - SECRET_KEY=b8oypie)*b$pt6w#*$kvjjzejj5^d^2nek(bn0&lf8sac1zg-d
+    #     depends_on:
+    #         - db
+    #         - redis
+    #         - app
 
     nginx:
         image: robotixweb/frontend:github
@@ -74,20 +74,20 @@ services:
             - 80:80
             - 443:443
         volumes:
-            - ./webserver/nginx-proxy.conf:/etc/nginx/conf.d/default.conf:ro
-            # - ./webserver/certbot/conf:/etc/letsencrypt
-            # - ./webserver/certbot/www:/var/www/certbot
+            - ./webserver/nginx-proxy-ssl.conf:/etc/nginx/conf.d/default.conf:ro
+            - ./webserver/certbot/conf:/etc/letsencrypt
+            - ./webserver/certbot/www:/var/www/certbot
             - build_folder:/var/www/frontend
         depends_on:
             - app
 
-    # certbot:
-    #     image: certbot/certbot:arm64v8-latest
-    #     restart: unless-stopped
-    #     volumes:
-    #         - ./webserver/certbot/conf:/etc/letsencrypt
-    #         - ./webserver/certbot/www:/var/www/certbot
-    #     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"  
+    certbot:
+        image: certbot/certbot:arm64v8-latest
+        restart: unless-stopped
+        volumes:
+            - ./webserver/certbot/conf:/etc/letsencrypt
+            - ./webserver/certbot/www:/var/www/certbot
+        entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"  
 
 volumes:
     postgres_data:
