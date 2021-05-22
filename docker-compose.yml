@@ -22,10 +22,13 @@ services:
     app:
         image: robotixweb/backend:github
         restart: on-failure
-        ports: 
+        ports:
             - "8000:8000"
+        volumes:
+	    - staticfiles:/app/backend/staticfiles
         command: >
-            sh -c "python manage.py migrate && 
+            sh -c "python manage.py migrate &&
+            python manage.py collectstatic --no-input && 
             gunicorn RobotixWeb.wsgi --bind 0.0.0.0:8000 --workers 2 --threads 4"
         environment: 
             - DEBUG=1
@@ -79,6 +82,7 @@ services:
             - ./webserver/certbot/conf/:/etc/nginx/ssl/
             - ./webserver/certbot/data:/usr/share/nginx/html/letsencrypt
             - build_folder:/var/www/frontend
+            - staticfiles:/staticfiles
         depends_on:
             - app
 
@@ -93,3 +97,4 @@ services:
 volumes:
     postgres_data:
     build_folder:
+    staticfiles:
