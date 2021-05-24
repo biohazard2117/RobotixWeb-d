@@ -97,3 +97,4 @@ volumes:
     postgres_data:
     build_folder:
     staticfiles:
+    mediafiles:
