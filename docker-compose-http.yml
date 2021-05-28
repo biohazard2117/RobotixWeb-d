@@ -1,0 +1,100 @@
+version: '3.7'
+
+services:
+    # redis:
+    #     image: redis:alpine
+    #     restart: on-failure
+    #     expose:
+    #         - 6379
+
+    db:
+        image: postgres:12.0-alpine
+        restart: on-failure
+        volumes:
+            - postgres_data:/var/lib/postgresql/data/
+        env_file:
+            - ./docker/docker.db.env
+        expose:
+            - 5432
+
+    app:
+        image: robotixweb/backend:github
+        restart: on-failure
+        ports:
+            - 8000:8000
+        volumes:
+            - staticfiles:/app/backend/staticfiles
+            - mediafiles:/app/backend/mediafiles
+        command: >
+            sh -c "python manage.py migrate &&
+            python manage.py collectstatic --no-input && 
+            gunicorn RobotixWeb.wsgi --bind 0.0.0.0:8000 --workers 2 --threads 4"
+        env_file:
+            - ./docker/docker.app.env
+        depends_on:
+            - db
+
+    # celery_beat:
+    #     image: robotixweb/backend:github
+    #     restart: on-failure
+    #     volumes:
+    #         - ../RobotixWeb21:/RobotixWeb21
+    #     command: celery -A RobotixWeb beat -l info 
+    #     environment:
+    #         - DB_HOST=db
+    #         - DB_NAME=robotixdb3
+    #         - DB_USER=robot
+    #         - DB_PASS=robotixdb3
+    #         - SECRET_KEY=b8oypie)*b$pt6w#*$kvjjzejj5^d^2nek(bn0&lf8sac1zg-d
+    #     depends_on:
+    #         - db
+    #         - redis
+    #         - app
+
+    # celery_worker:
+    #     image: robotixweb/backend:github
+    #     restart: on-failure
+    #     command: celery -A RobotixWeb worker -l info
+    #     volumes:
+    #         - ../RobotixWeb21:/RobotixWeb21
+    #     environment:
+    #         - DB_HOST=db
+    #         - DB_NAME=robotixdb3
+    #         - DB_USER=robot
+    #         - DB_PASS=robotixdb3
+    #         - SECRET_KEY=b8oypie)*b$pt6w#*$kvjjzejj5^d^2nek(bn0&lf8sac1zg-d
+    #     depends_on:
+    #         - db
+    #         - redis
+    #         - app
+
+    nginx:
+        image: robotixweb/frontend:github
+        restart: always
+        ports:
+            - 80:80
+            - 443:443
+        volumes:
+            - ./webserver/nginx-proxy-ssl.conf:/etc/nginx/conf.d/default.conf:ro
+            - ./webserver/dhparam:/etc/nginx/dhparam
+            - ./webserver/certbot/conf/:/etc/nginx/ssl/
+            - ./webserver/certbot/data:/usr/share/nginx/html/letsencrypt
+            - build_folder:/var/www/frontend
+            - staticfiles:/staticfiles
+            - mediafiles:/mediafiles
+        depends_on:
+            - app
+
+#    certbot:
+#        image: certbot/certbot:latest
+#        command: certonly --webroot --webroot-path=/usr/share/nginx/html/letsencrypt --email robotixclub@nitrr.ac.in --agree-tos --no-eff-email -d robotix.nitrr.ac.in
+#        volumes:
+#            - ./webserver/certbot/conf/:/etc/letsencrypt
+#            - ./webserver/certbot/logs/:/var/log/letsencrypt
+#            - ./webserver/certbot/data:/usr/share/nginx/html/letsencrypt
+
+volumes:
+    postgres_data:
+    build_folder:
+    staticfiles:
+    mediafiles:
