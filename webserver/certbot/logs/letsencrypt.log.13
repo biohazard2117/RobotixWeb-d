@@ -1,0 +1,123 @@
+2021-05-19 18:41:37,665:DEBUG:certbot._internal.main:certbot version: 1.15.0
+2021-05-19 18:41:37,666:DEBUG:certbot._internal.main:Location of certbot entry point: /usr/local/bin/certbot
+2021-05-19 18:41:37,666:DEBUG:certbot._internal.main:Arguments: ['--webroot', '--webroot-path=/usr/share/nginx/html/letsencrypt', '--email', 'robotixclub@nitrr.ac.in', '--agree-tos', '--no-eff-email', '-d', 'roborix.nitrr.ac.in']
+2021-05-19 18:41:37,666:DEBUG:certbot._internal.main:Discovered plugins: PluginsRegistry(PluginEntryPoint#manual,PluginEntryPoint#null,PluginEntryPoint#standalone,PluginEntryPoint#webroot)
+2021-05-19 18:41:37,680:DEBUG:certbot._internal.log:Root logging level set at 20
+2021-05-19 18:41:37,680:INFO:certbot._internal.log:Saving debug log to /var/log/letsencrypt/letsencrypt.log
+2021-05-19 18:41:37,681:DEBUG:certbot._internal.plugins.selection:Requested authenticator webroot and installer None
+2021-05-19 18:41:37,684:DEBUG:certbot._internal.plugins.selection:Single candidate plugin: * webroot
+Description: Place files in webroot directory
+Interfaces: IAuthenticator, IPlugin
+Entry point: webroot = certbot._internal.plugins.webroot:Authenticator
+Initialized: <certbot._internal.plugins.webroot.Authenticator object at 0x7f8f14067ca0>
+Prep: True
+2021-05-19 18:41:37,685:DEBUG:certbot._internal.plugins.selection:Selected authenticator <certbot._internal.plugins.webroot.Authenticator object at 0x7f8f14067ca0> and installer None
+2021-05-19 18:41:37,685:INFO:certbot._internal.plugins.selection:Plugins selected: Authenticator webroot, Installer None
+2021-05-19 18:41:37,692:DEBUG:certbot._internal.main:Picked account: <Account(RegistrationResource(body=Registration(key=None, contact=(), agreement=None, status=None, terms_of_service_agreed=None, only_return_existing=None, external_account_binding=None), uri='https://acme-v02.api.letsencrypt.org/acme/acct/124178225', new_authzr_uri=None, terms_of_service=None), 4ccf1848dab134df4a9a7b01a72cbb83, Meta(creation_dt=datetime.datetime(2021, 5, 19, 18, 39, 12, tzinfo=<UTC>), creation_host='30d663a1f659', register_to_eff=None))>
+2021-05-19 18:41:37,693:DEBUG:acme.client:Sending GET request to https://acme-v02.api.letsencrypt.org/directory.
+2021-05-19 18:41:37,694:DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): acme-v02.api.letsencrypt.org:443
+2021-05-19 18:41:38,707:DEBUG:urllib3.connectionpool:https://acme-v02.api.letsencrypt.org:443 "GET /directory HTTP/1.1" 200 658
+2021-05-19 18:41:38,708:DEBUG:acme.client:Received response:
+HTTP 200
+Server: nginx
+Date: Wed, 19 May 2021 18:41:38 GMT
+Content-Type: application/json
+Content-Length: 658
+Connection: keep-alive
+Cache-Control: public, max-age=0, no-cache
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=604800
+
+{
+  "keyChange": "https://acme-v02.api.letsencrypt.org/acme/key-change",
+  "meta": {
+    "caaIdentities": [
+      "letsencrypt.org"
+    ],
+    "termsOfService": "https://letsencrypt.org/documents/LE-SA-v1.2-November-15-2017.pdf",
+    "website": "https://letsencrypt.org"
+  },
+  "newAccount": "https://acme-v02.api.letsencrypt.org/acme/new-acct",
+  "newNonce": "https://acme-v02.api.letsencrypt.org/acme/new-nonce",
+  "newOrder": "https://acme-v02.api.letsencrypt.org/acme/new-order",
+  "pt1O9zKlSpg": "https://community.letsencrypt.org/t/adding-random-entries-to-the-directory/33417",
+  "revokeCert": "https://acme-v02.api.letsencrypt.org/acme/revoke-cert"
+}
+2021-05-19 18:41:38,708:DEBUG:certbot.display.util:Notifying user: Requesting a certificate for roborix.nitrr.ac.in
+2021-05-19 18:41:38,868:DEBUG:certbot.crypto_util:Generating RSA key (2048 bits): /etc/letsencrypt/keys/0014_key-certbot.pem
+2021-05-19 18:41:38,871:DEBUG:certbot.crypto_util:Creating CSR: /etc/letsencrypt/csr/0014_csr-certbot.pem
+2021-05-19 18:41:38,872:DEBUG:acme.client:Requesting fresh nonce
+2021-05-19 18:41:38,872:DEBUG:acme.client:Sending HEAD request to https://acme-v02.api.letsencrypt.org/acme/new-nonce.
+2021-05-19 18:41:39,124:DEBUG:urllib3.connectionpool:https://acme-v02.api.letsencrypt.org:443 "HEAD /acme/new-nonce HTTP/1.1" 200 0
+2021-05-19 18:41:39,125:DEBUG:acme.client:Received response:
+HTTP 200
+Server: nginx
+Date: Wed, 19 May 2021 18:41:38 GMT
+Connection: keep-alive
+Cache-Control: public, max-age=0, no-cache
+Link: <https://acme-v02.api.letsencrypt.org/directory>;rel="index"
+Replay-Nonce: 0103Q6S89eAeBMgADFbZHjcTjNEIzQT2qDs_lufVg7JVPks
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=604800
+
+
+2021-05-19 18:41:39,126:DEBUG:acme.client:Storing nonce: 0103Q6S89eAeBMgADFbZHjcTjNEIzQT2qDs_lufVg7JVPks
+2021-05-19 18:41:39,127:DEBUG:acme.client:JWS payload:
+b'{\n  "identifiers": [\n    {\n      "type": "dns",\n      "value": "roborix.nitrr.ac.in"\n    }\n  ]\n}'
+2021-05-19 18:41:39,128:DEBUG:acme.client:Sending POST request to https://acme-v02.api.letsencrypt.org/acme/new-order:
+{
+  "protected": "eyJhbGciOiAiUlMyNTYiLCAia2lkIjogImh0dHBzOi8vYWNtZS12MDIuYXBpLmxldHNlbmNyeXB0Lm9yZy9hY21lL2FjY3QvMTI0MTc4MjI1IiwgIm5vbmNlIjogIjAxMDNRNlM4OWVBZUJNZ0FERmJaSGpjVGpORUl6UVQycURzX2x1ZlZnN0pWUGtzIiwgInVybCI6ICJodHRwczovL2FjbWUtdjAyLmFwaS5sZXRzZW5jcnlwdC5vcmcvYWNtZS9uZXctb3JkZXIifQ",
+  "signature": "HAQjYklKSVckC8KYM6NUU7dM_RP7UE06ASdfKwB4Wwj4pSBpLBt2dL-e5VntKDGS2_TGSAQlC5_Aa_psKSQ6Hpdp5MqNEyxL0HooS8JqS1f4ZLtztqywg2ZkQr34-7AG5VXT9aUA_1KQ31-nOorLVTT-_y-9AccFXtdedlW6gyS_4rMRcGR-qvXaGvJ8Hq2lRC41t23WJLPeqe7IQ8GIJVnBhCtbphJPYsLJvnzygaouz3FjZLbPLfMqqW7JHJHfoMhAAiV0qEsdC4Lq7di9v5RkePO_sYLtTExDh78s_Si6rQnlLbSz3OcHyHjuvhnDcmgEf-jcM6rUelxHpO2B5g",
+  "payload": "ewogICJpZGVudGlmaWVycyI6IFsKICAgIHsKICAgICAgInR5cGUiOiAiZG5zIiwKICAgICAgInZhbHVlIjogInJvYm9yaXgubml0cnIuYWMuaW4iCiAgICB9CiAgXQp9"
+}
+2021-05-19 18:41:39,398:DEBUG:urllib3.connectionpool:https://acme-v02.api.letsencrypt.org:443 "POST /acme/new-order HTTP/1.1" 429 201
+2021-05-19 18:41:39,399:DEBUG:acme.client:Received response:
+HTTP 429
+Server: nginx
+Date: Wed, 19 May 2021 18:41:39 GMT
+Content-Type: application/problem+json
+Content-Length: 201
+Connection: keep-alive
+Boulder-Requester: 124178225
+Cache-Control: public, max-age=0, no-cache
+Link: <https://acme-v02.api.letsencrypt.org/directory>;rel="index"
+Replay-Nonce: 0104gFbNA3FIFDgTyrv9qdftibh1SflZEnMjYHEt8R60RNg
+
+{
+  "type": "urn:ietf:params:acme:error:rateLimited",
+  "detail": "Error creating new order :: too many failed authorizations recently: see https://letsencrypt.org/docs/rate-limits/",
+  "status": 429
+}
+2021-05-19 18:41:39,399:DEBUG:certbot._internal.log:Exiting abnormally:
+Traceback (most recent call last):
+  File "/usr/local/bin/certbot", line 33, in <module>
+    sys.exit(load_entry_point('certbot', 'console_scripts', 'certbot')())
+  File "/opt/certbot/src/certbot/certbot/main.py", line 15, in main
+    return internal_main.main(cli_args)
+  File "/opt/certbot/src/certbot/certbot/_internal/main.py", line 1435, in main
+    return config.func(config, plugins)
+  File "/opt/certbot/src/certbot/certbot/_internal/main.py", line 1304, in certonly
+    lineage = _get_and_save_cert(le_client, config, domains, certname, lineage)
+  File "/opt/certbot/src/certbot/certbot/_internal/main.py", line 140, in _get_and_save_cert
+    lineage = le_client.obtain_and_enroll_certificate(domains, certname)
+  File "/opt/certbot/src/certbot/certbot/_internal/client.py", line 444, in obtain_and_enroll_certificate
+    cert, chain, key, _ = self.obtain_certificate(domains)
+  File "/opt/certbot/src/certbot/certbot/_internal/client.py", line 374, in obtain_certificate
+    orderr = self._get_order_and_authorizations(csr.data, self.config.allow_subset_of_names)
+  File "/opt/certbot/src/certbot/certbot/_internal/client.py", line 406, in _get_order_and_authorizations
+    orderr = self.acme.new_order(csr_pem)
+  File "/opt/certbot/src/acme/acme/client.py", line 880, in new_order
+    return cast(ClientV2, self.client).new_order(csr_pem)
+  File "/opt/certbot/src/acme/acme/client.py", line 658, in new_order
+    response = self._post(self.directory['newOrder'], order)
+  File "/opt/certbot/src/acme/acme/client.py", line 86, in _post
+    return self.net.post(*args, **kwargs)
+  File "/opt/certbot/src/acme/acme/client.py", line 1198, in post
+    return self._post_once(*args, **kwargs)
+  File "/opt/certbot/src/acme/acme/client.py", line 1211, in _post_once
+    response = self._check_response(response, content_type=content_type)
+  File "/opt/certbot/src/acme/acme/client.py", line 1068, in _check_response
+    raise messages.Error.from_json(jobj)
+acme.messages.Error: urn:ietf:params:acme:error:rateLimited :: There were too many requests of a given type :: Error creating new order :: too many failed authorizations recently: see https://letsencrypt.org/docs/rate-limits/
+2021-05-19 18:41:39,400:ERROR:certbot._internal.log:An unexpected error occurred:
+2021-05-19 18:41:39,401:ERROR:certbot._internal.log:There were too many requests of a given type :: Error creating new order :: too many failed authorizations recently: see https://letsencrypt.org/docs/rate-limits/
