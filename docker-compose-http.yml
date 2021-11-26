@@ -85,13 +85,13 @@ services:
         depends_on:
             - app
 
-#    certbot:
-#        image: certbot/certbot:latest
-#        command: certonly --webroot --webroot-path=/usr/share/nginx/html/letsencrypt --email robotixclub@nitrr.ac.in --agree-tos --no-eff-email -d robotix.nitrr.ac.in
-#        volumes:
-#            - ./webserver/certbot/conf/:/etc/letsencrypt
-#            - ./webserver/certbot/logs/:/var/log/letsencrypt
-#            - ./webserver/certbot/data:/usr/share/nginx/html/letsencrypt
+    certbot:
+        image: certbot/certbot:latest
+        command: certonly --webroot --webroot-path=/usr/share/nginx/html/letsencrypt --email robotixclub@nitrr.ac.in --agree-tos --no-eff-email -d robotix.nitrr.ac.in
+        volumes:
+            - ./webserver/certbot/conf/:/etc/letsencrypt
+            - ./webserver/certbot/logs/:/var/log/letsencrypt
+            - ./webserver/certbot/data:/usr/share/nginx/html/letsencrypt
 
 volumes:
     postgres_data:
