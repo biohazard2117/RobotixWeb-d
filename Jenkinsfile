@@ -17,7 +17,7 @@ docker ps'''
       }
     }
 
-    stage('') {
+    stage('Check') {
       steps {
         echo 'All containers are up and running'
       }
