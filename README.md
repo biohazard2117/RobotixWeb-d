@@ -5,3 +5,4 @@
 openssl dhparam -out dhparam-2048.pem 2048
 ```
 #### Than switch to *nginx-proxy-ssl.conf*
+Thank you
