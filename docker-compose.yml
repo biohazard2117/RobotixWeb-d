@@ -32,6 +32,8 @@ services:
             gunicorn RobotixWeb.wsgi --bind 0.0.0.0:8000 --workers 2 --threads 4"
         env_file:
             - ./docker/docker.app.env
+        expose: 
+            - 8000
         depends_on:
             - db
 
@@ -83,6 +85,9 @@ services:
             - build_folder:/var/www/frontend
             - staticfiles:/staticfiles
             - mediafiles:/mediafiles
+        expose: 
+            - 80
+            - 443
         depends_on:
             - app
 
