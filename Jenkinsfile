@@ -12,7 +12,7 @@ docker ps '''
     stage('Up') {
       steps {
         echo 'Refreshing and starting all the containers now'
-        sh '''docker-compose up -d --no-recreate
+        sh '''docker-compose -f docker-compose-http.yml up -d --no-recreate
 docker ps'''
       }
     }
