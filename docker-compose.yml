@@ -85,6 +85,9 @@ services:
             - build_folder:/var/www/frontend
             - staticfiles:/staticfiles
             - mediafiles:/mediafiles
+            - type: bind
+             source: ./nginx.conf
+             target: /etc/nginx/
         expose: 
             - 80
             - 443
