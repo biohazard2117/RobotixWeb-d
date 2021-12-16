@@ -76,6 +76,7 @@ services:
             - 80:80
             - 443:443
         volumes:
+            - ./nginx/nginx_custom.conf:/etc/nginx/nginx.conf:ro
             - ./webserver/nginx-proxy-ssl.conf:/etc/nginx/conf.d/default.conf:ro
             - ./webserver/dhparam:/etc/nginx/dhparam
             - ./webserver/certbot/conf/:/etc/nginx/ssl/
