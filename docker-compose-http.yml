@@ -96,9 +96,6 @@ services:
           - WATCHTOWER_CLEANUP=true
           - WATCHTOWER_POLL_INTERVAL=60
           - WATCHTOWER_INCLUDE_RESTARTING=true
-          - WATCHTOWER_NOTIFICATIONS=email
-          - WATCHTOWER_NOTIFICATION_EMAIL_FROM=robotixclub@nitrr.ac.in
-          - WATCHTOWER_NOTIFICATION_EMAIL_TO=uttu.college.id@gmail.com
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
         depends_on:
