@@ -86,6 +86,23 @@ services:
         depends_on:
             - app
 
+    watchtower:
+        image: containrrr/watchtower
+        container_name: watchtower
+        restart: always
+        environment:
+          - IN=Asia/Calcutta
+          - WATCHTOWER_DEBUG=true
+          - WATCHTOWER_CLEANUP=true
+          - WATCHTOWER_POLL_INTERVAL=60
+          - WATCHTOWER_INCLUDE_RESTARTING=true
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+        depends_on:
+          - app
+          - nginx
+          - db
+
 #     certbot:
 #         image: certbot/certbot:latest
 #         command: certonly --webroot --webroot-path=/usr/share/nginx/html/letsencrypt --email robotixclub@nitrr.ac.in --agree-tos --no-eff-email -d robotix.nitrr.ac.in

@@ -92,6 +92,8 @@ services:
         depends_on:
             - app
 
+        
+
 #    certbot:
 #        image: certbot/certbot:latest
 #        command: certonly --webroot --webroot-path=/usr/share/nginx/html/letsencrypt --email robotixclub@nitrr.ac.in --agree-tos --no-eff-email -d robotix.nitrr.ac.in
